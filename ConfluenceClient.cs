@@ -170,35 +170,39 @@ public class ConfluenceClient : IDisposable
                     return JsonDocument.Parse(content);
                 });
 
-                using (result)
+                // Extract data from result and dispose immediately
+                if (result.RootElement.TryGetProperty("results", out var results))
                 {
-                    if (result.RootElement.TryGetProperty("results", out var results))
-                    {
-                        var batch = results.EnumerateArray().ToList();
-                        var batchSize = batch.Count;
-                        allChildren.AddRange(batch);
-                        _logger.Debug($"Added {batchSize} children (total: {allChildren.Count})");
+                    var batch = results.EnumerateArray().ToList();
+                    var batchSize = batch.Count;
+                    allChildren.AddRange(batch);
+                    _logger.Debug($"Added {batchSize} children (total: {allChildren.Count})");
 
-                        if (batchSize < limit)
-                        {
-                            break;
-                        }
-                    }
-                    else
+                    if (batchSize < limit)
                     {
+                        result.Dispose();
                         break;
                     }
+                }
+                else
+                {
+                    result.Dispose();
+                    break;
+                }
 
-                    if (result.RootElement.TryGetProperty("_links", out var links) &&
-                        links.TryGetProperty("next", out _))
-                    {
-                        start += limit;
-                        _logger.Debug($"More pages available, continuing with start={start}");
-                    }
-                    else
-                    {
-                        break;
-                    }
+                var hasNext = result.RootElement.TryGetProperty("_links", out var links) &&
+                              links.TryGetProperty("next", out _);
+                
+                result.Dispose();
+                
+                if (hasNext)
+                {
+                    start += limit;
+                    _logger.Debug($"More pages available, continuing with start={start}");
+                }
+                else
+                {
+                    break;
                 }
             }
 

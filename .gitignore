@@ -13,3 +13,19 @@ _bmad/
 .idea/
 docs/
 output/
+
+# C# build artifacts
+bin/
+obj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.pidb
+*.sln.iml
+.vs/
+*.swp
+*.swo
+*~
+.DS_Store

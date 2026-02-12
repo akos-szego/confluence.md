@@ -2,7 +2,6 @@
 using System.CommandLine;
 using System.IO;
 using System.Threading.Tasks;
-using DotNetEnv;
 
 namespace ConfluenceMd;
 
@@ -10,9 +9,6 @@ class Program
 {
     static async Task<int> Main(string[] args)
     {
-        // Load environment variables from .env file
-        Env.Load();
-
         var rootCommand = new RootCommand("Export Confluence pages to Markdown files recursively.");
 
         var pageIdOption = new Option<string>(

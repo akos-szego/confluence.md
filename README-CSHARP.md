@@ -89,15 +89,15 @@ CONFLUENCE_TOKEN=your_personal_access_token_here
 
 ### Environment Variables
 
-Create a `.env` file in the project root (use `.env.example` as template):
+You can set credentials using system environment variables:
 
-```env
-CONFLUENCE_URL=https://your-domain.atlassian.net/wiki
-CONFLUENCE_USER=your.email@example.com
-CONFLUENCE_TOKEN=your_personal_access_token
+```bash
+export CONFLUENCE_URL=https://your-domain.atlassian.net/wiki
+export CONFLUENCE_USER=your.email@example.com
+export CONFLUENCE_TOKEN=your_personal_access_token
 ```
 
-**Note:** Each credential resolves independently via: CLI argument → system environment variable → `.env` file.
+**Note:** Each credential resolves independently via: CLI argument → system environment variable.
 
 ## Usage
 
@@ -200,7 +200,6 @@ This C# implementation uses the following NuGet packages:
 - **System.CommandLine** (2.0.0-beta4.22272.1) - Command-line parsing
 - **YamlDotNet** (13.7.1) - YAML serialization for frontmatter
 - **ReverseMarkdown** (4.6.0) - HTML to Markdown conversion
-- **DotNetEnv** (3.0.0) - .env file support
 
 ## Known Limitations
 
@@ -235,7 +234,6 @@ confluence.md/
 ├── Logger.cs              # Logging interface
 ├── Program.cs             # CLI entry point
 ├── ConfluenceMd.csproj    # Project file
-├── .env.example           # Environment template
 ├── .gitignore
 └── README-CSHARP.md       # This file
 ```

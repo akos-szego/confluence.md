@@ -5,7 +5,6 @@
 **A lightweight CLI tool to recursively export Confluence pages to Markdown files**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![.NET 8.0](https://img.shields.io/badge/.NET-8.0-512BD4.svg)](https://dotnet.microsoft.com/download)
 [![GitHub stars](https://img.shields.io/github/stars/bzoboki/Confluence.md.svg?style=social)](https://github.com/bzoboki/Confluence.md/stargazers)
 
@@ -17,20 +16,11 @@
 
 A lightweight CLI tool to recursively export Confluence pages to Markdown files with YAML frontmatter. Designed to extract content for documentation processing and analysis workflows.
 
-**🎉 Now available in both Python and C# implementations!**
+**Built with .NET 8.0 for cross-platform compatibility.**
 
 ## Overview
 
 This tool connects to Confluence Cloud/Server, fetches a page and all its descendants, converts HTML content to Markdown, and saves each page as a `.md` file with preserved metadata. The output structure mirrors the Confluence page hierarchy, making it ideal for feeding into documentation analysis tools.
-
-## Language Versions
-
-This tool is available in two implementations:
-
-- **Python Version**: Original implementation - See installation instructions below
-- **C# Version**: Full port with identical functionality - See [README-CSHARP.md](README-CSHARP.md) for details
-
-Both versions provide the same features and produce identical output. Choose based on your environment and preference.
 
 ## AI Agent Integration
 
@@ -44,21 +34,51 @@ The exported Markdown files are designed to be used as context for AI agents and
 
 The clean Markdown format with YAML frontmatter makes it easy to ingest into AI workflows, vector databases, or RAG (Retrieval-Augmented Generation) systems.
 
-## Installation (Python Version)
+## Prerequisites
 
-1. **Create a virtual environment:**
+- .NET 8.0 SDK or later
+- A Confluence Cloud or Server/Data Center instance
+- Personal Access Token or API token for authentication
+
+## Installation
+
+1. **Clone the repository:**
    ```bash
-   python -m venv venv
+   git clone https://github.com/akos-szego/confluence.md.git
+   cd confluence.md
    ```
 
-2. **Activate the virtual environment:**
-   - Windows: `venv\Scripts\activate`
-   - Linux/Mac: `source venv/bin/activate`
-
-3. **Install the package:**
+2. **Restore dependencies and build:**
    ```bash
-   pip install -e .
+   dotnet restore
+   dotnet build
    ```
+
+3. **Run the application:**
+   ```bash
+   dotnet run -- [options]
+   ```
+
+### Publishing as a Standalone Executable
+
+You can publish the application as a self-contained executable that doesn't require .NET runtime to be installed:
+
+**For Linux:**
+```bash
+dotnet publish -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+```
+
+**For Windows:**
+```bash
+dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+```
+
+**For macOS:**
+```bash
+dotnet publish -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+```
+
+The executable will be in `bin/Release/net8.0/{runtime}/publish/` directory.
 
 ## Configuration
 
@@ -89,23 +109,17 @@ CONFLUENCE_TOKEN=your_personal_access_token_here
 
 **Note:** Omit `CONFLUENCE_USER` for Server/Data Center instances to use Bearer token authentication.
 
-### Personal Access Token
-
-Generate a Personal Access Token from your Confluence account:
-- Confluence Cloud: https://id.atlassian.com/manage-profile/security/api-tokens
-- Confluence Server: User Settings → Personal Access Tokens
-
 ### Environment Variables
 
-Create a `.env` file in the project root (use `.env.example` as template):
+You can set credentials using system environment variables:
 
-```env
-CONFLUENCE_URL=https://your-domain.atlassian.net/wiki
-CONFLUENCE_USER=your.email@example.com
-CONFLUENCE_TOKEN=your_personal_access_token
+```bash
+export CONFLUENCE_URL=https://your-domain.atlassian.net/wiki
+export CONFLUENCE_USER=your.email@example.com
+export CONFLUENCE_TOKEN=your_personal_access_token
 ```
 
-**Note:** Each credential resolves independently via: CLI argument → system environment variable → `.env` file.
+**Note:** Each credential resolves independently via: CLI argument → system environment variable.
 
 ## Usage
 
@@ -113,17 +127,17 @@ CONFLUENCE_TOKEN=your_personal_access_token
 
 ```bash
 # Confluence Cloud (with username)
-confluence-md --page-id 123456 --output-path ./output
+dotnet run -- --page-id 123456 --output-path ./output
 
 # Confluence Server (without username, PAT only)
-confluence-md --page-id 123456 --output-path ./output
+dotnet run -- --page-id 123456 --output-path ./output
 ```
 
 ### With Explicit Credentials
 
 ```bash
 # Confluence Cloud
-confluence-md \
+dotnet run -- \
   --page-id 123456 \
   --output-path ./output \
   --url https://your-domain.atlassian.net/wiki \
@@ -131,7 +145,7 @@ confluence-md \
   --token abc123def456
 
 # Confluence Server/Data Center (omit --user for PAT Bearer auth)
-confluence-md \
+dotnet run -- \
   --page-id 123456 \
   --output-path ./output \
   --url https://confluence.your-company.com \
@@ -141,7 +155,7 @@ confluence-md \
 ### With Verbose Logging and Rate Limiting
 
 ```bash
-confluence-md \
+dotnet run -- \
   --page-id 123456 \
   --output-path ./output \
   --delay-ms 500 \
@@ -151,7 +165,7 @@ confluence-md \
 ### Resume Existing Export
 
 ```bash
-confluence-md \
+dotnet run -- \
   --page-id 123456 \
   --output-path ./output \
   --skip-existing
@@ -160,7 +174,7 @@ confluence-md \
 ### With Custom Timeout and Recursion Limit
 
 ```bash
-confluence-md \
+dotnet run -- \
   --page-id 123456 \
   --output-path ./output \
   --timeout 60 \
@@ -304,7 +318,7 @@ Test authentication and basic export:
 
 ```bash
 # Test with verbose logging
-confluence-md --page-id YOUR_PAGE_ID --output-path ./test-output --verbose
+dotnet run -- --page-id YOUR_PAGE_ID --output-path ./test-output --verbose
 
 # Verify output files
 ls -R ./test-output
@@ -313,17 +327,13 @@ ls -R ./test-output
 ### Project Structure
 
 ```
-Confluence.md/
-├── src/
-│   └── confluence_md/
-│       ├── __init__.py
-│       ├── cli.py          # Click-based CLI
-│       ├── client.py       # Confluence API wrapper
-│       ├── converter.py    # HTML to Markdown conversion
-│       └── exporter.py     # Recursive export logic
-├── requirements.txt
-├── setup.py
-├── .env.example
+confluence.md/
+├── ConfluenceClient.cs    # Confluence API client wrapper
+├── Converter.cs           # HTML to Markdown conversion
+├── PageExporter.cs        # Recursive export logic
+├── Logger.cs              # Logging interface
+├── Program.cs             # CLI entry point
+├── ConfluenceMd.csproj    # Project file
 ├── .gitignore
 └── README.md
 ```

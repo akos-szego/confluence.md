@@ -6,6 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![.NET 8.0](https://img.shields.io/badge/.NET-8.0-512BD4.svg)](https://dotnet.microsoft.com/download)
 [![GitHub stars](https://img.shields.io/github/stars/bzoboki/Confluence.md.svg?style=social)](https://github.com/bzoboki/Confluence.md/stargazers)
 
 <a href="https://buymeacoffee.com/jatson" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50"></a>
@@ -16,9 +17,20 @@
 
 A lightweight CLI tool to recursively export Confluence pages to Markdown files with YAML frontmatter. Designed to extract content for documentation processing and analysis workflows.
 
+**🎉 Now available in both Python and C# implementations!**
+
 ## Overview
 
 This tool connects to Confluence Cloud/Server, fetches a page and all its descendants, converts HTML content to Markdown, and saves each page as a `.md` file with preserved metadata. The output structure mirrors the Confluence page hierarchy, making it ideal for feeding into documentation analysis tools.
+
+## Language Versions
+
+This tool is available in two implementations:
+
+- **Python Version**: Original implementation - See installation instructions below
+- **C# Version**: Full port with identical functionality - See [README-CSHARP.md](README-CSHARP.md) for details
+
+Both versions provide the same features and produce identical output. Choose based on your environment and preference.
 
 ## AI Agent Integration
 
@@ -32,7 +44,7 @@ The exported Markdown files are designed to be used as context for AI agents and
 
 The clean Markdown format with YAML frontmatter makes it easy to ingest into AI workflows, vector databases, or RAG (Retrieval-Augmented Generation) systems.
 
-## Installation
+## Installation (Python Version)
 
 1. **Create a virtual environment:**
    ```bash

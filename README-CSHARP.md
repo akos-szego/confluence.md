@@ -37,6 +37,27 @@ The C# version provides the same functionality as the original Python version, a
    ./bin/Release/net8.0/ConfluenceMd [options]
    ```
 
+### Publishing as a Standalone Executable
+
+You can publish the application as a self-contained executable that doesn't require .NET runtime to be installed:
+
+**For Linux:**
+```bash
+dotnet publish -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+```
+
+**For Windows:**
+```bash
+dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+```
+
+**For macOS:**
+```bash
+dotnet publish -c Release -r osx-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+```
+
+The executable will be in `bin/Release/net8.0/{runtime}/publish/` directory.
+
 ## Configuration
 
 ### Authentication Methods
